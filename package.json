@@ -1,0 +1,41 @@
+{
+  "name": "chaps",
+  "version": "0.0.1",
+  "description": "cache fronted http api caller",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "author": "Matthew Hadley (https://github.com/diffsky)",
+  "contributors": [
+    "Joshua Cole (https://github.com/joshuafcole)"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "underscore": "^1.6.0",
+    "superagent": "^0.17.0",
+    "lru-cache": "^2.5.0"
+  },
+  "devDependencies": {
+    "tape": "^2.12.3"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/creativelive/chaps.git"
+  },
+  "keywords": [
+    "request",
+    "superagent",
+    "http",
+    "api",
+    "cache",
+    "LRU"
+  ],
+  "bugs": {
+    "url": "https://github.com/creativelive/chaps/issues"
+  },
+  "homepage": "https://github.com/creativelive/chaps"
+}
