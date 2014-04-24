@@ -3,6 +3,7 @@
 var _ = require('underscore');
 var superagent = require('superagent');
 var LRU = require('lru-cache');
+var deepval = require('deepval');
 
 function Chaps(opts){
   if(opts.cache) {
@@ -36,6 +37,14 @@ Chaps.prototype.key = function(opts){
       key[modifier] = keyModifier(opts[modifier]);
     }
   });
+
+  // remove any key values that should be excluded
+  if(opts.cacheKeyExcludes){
+    opts.cacheKeyExcludes.forEach(function(exclude){
+      deepval(key, exclude, null, true);
+    });
+  }
+
   key = JSON.stringify(key);
   return key;
 };

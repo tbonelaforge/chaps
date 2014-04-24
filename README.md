@@ -9,9 +9,9 @@ var chaps = new Chaps({
   hostname: 'localhost',
   timeout: 2000,
   cache: true,
-  LRU: {
+  LRU: { // options passed to LRU object
     max: 100,
-    maxAge: 500
+    maxAge: 500 // ms
   }
 });
 
