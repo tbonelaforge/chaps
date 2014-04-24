@@ -17,6 +17,7 @@ function runTests() {
     t.plan(1);
 
     var chaps = new Chaps({
+      debug: true,
       hostname: 'localhost',
       timeout: 2000,
       cache: true,
@@ -39,6 +40,7 @@ function runTests() {
     t.plan(3);
 
     var chaps = new Chaps({
+      debug: true,
       hostname: 'localhost',
       timeout: 2000,
       cache: true,

@@ -68,11 +68,18 @@ Chaps.prototype.get = function(opts, cb){
     var val = this.cache.get(key);
     if(val) {
       // return any cache hit in callback
+      if(opts.debug){
+        console.log('cache hit:', key);
+      }
       return cb(null, {
         cache: true,
         body: val
       });
+    } else if (opts.debug) {
+      console.log('cache miss:', key);
     }
+  } else if (opts.debug) {
+    console.log('cache skip:', this.key(opts));
   }
 
   // build a superagent request object
