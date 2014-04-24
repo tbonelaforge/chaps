@@ -1,12 +1,13 @@
 'use strict';
 
-var _ = require('underscore');
+var _ = require('lodash');
 var superagent = require('superagent');
 var LRU = require('lru-cache');
 var deepval = require('deepval');
 
 function Chaps(opts){
-  if(opts.cache) {
+  if(opts.cache || opts.LRU) {
+    opts.cache = true;
     opts.LRU = _.defaults(opts.LRU || {}, {
       max: 500,
       length: function () { return 1 },
@@ -34,7 +35,8 @@ Chaps.prototype.key = function(opts){
   }
   ['headers', 'cookies', 'query'].forEach(function(modifier){
     if(opts[modifier]){
-      key[modifier] = keyModifier(opts[modifier]);
+      // deep clone objects to allow any cacheKeyExcludes to be deleted
+      key[modifier] = _.clone(keyModifier(opts[modifier]), true);
     }
   });
 
@@ -52,6 +54,13 @@ Chaps.prototype.key = function(opts){
 // build a superagent request handler
 Chaps.prototype.req = function(opts){
   var sa = superagent[opts.method](opts.hostname + opts.url);
+
+  // JSON.stringify requested options
+  if(opts.stringifies){
+    opts.stringifies.forEach(function(stringify){
+      stringify = deepval(opts, stringify, JSON.stringify(deepval(opts, stringify)));
+    });
+  }
 
   // set headers
   for(var header in opts.headers) {
@@ -97,11 +106,13 @@ Chaps.prototype.get = function(opts, cb){
 
   // fetch data
   var self = this;
+  // console.log(req);
   req.end(function(err, res){
     // cache any good response
     if(!err && self.cache && opts.cache && res && res.status === 200 && res.body) {
       self.cache.set(key, res.body);
     }
+
     // return res in callback
     cb(err, res);
   });

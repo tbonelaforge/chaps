@@ -9,14 +9,17 @@ var chaps = new Chaps({
   hostname: 'localhost',
   timeout: 2000,
   cache: true,
-  LRU: { // options passed to LRU object
+  LRU: { // implies cache: true
+    // options passed to LRU object, see LRU lib for more options
     max: 100,
-    maxAge: 500 // ms
-  }
+    maxAge: 5000 // in ms
+  },
+  cacheKeyExcludes: ['query.foo', 'query.bar.aaa'], // sting dot notation of object values to not impact caching routes
+  stringify: ['query.foo'] // string dot notation of object values to JSON.stringify before sending request
 });
 
 chaps.get({
-  url: '/foo'
+  url: '/foo'  // url to hit
 }, function(err, res){
 
 });
