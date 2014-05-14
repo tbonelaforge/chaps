@@ -104,6 +104,13 @@ Chaps.prototype.get = function(opts, cb){
   opts.method = 'get';
   var req = this.req(opts);
 
+  // buffer options
+  if(opts.buffer === true) {
+    req.buffer();
+  } else if (opts.buffer === false) {
+    req.buffer(false);
+  }
+
   // fetch data
   var self = this;
   // console.log(req);

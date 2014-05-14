@@ -1,6 +1,6 @@
 {
   "name": "chaps",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "cache fronted http api caller",
   "main": "index.js",
   "scripts": {
