@@ -78,6 +78,10 @@ Chaps.prototype.req = function(opts){
 
 // handle get requests
 Chaps.prototype.get = function(opts, cb){
+  if(typeof cb === 'undefined'){
+    cb = opts;
+    opts = {};
+  }
   opts = _.defaults(opts, this.opts);
 
   if(this.cache && opts.cache) {
@@ -127,6 +131,10 @@ Chaps.prototype.get = function(opts, cb){
 
 // handle post requests
 Chaps.prototype.post = function(opts, cb){
+  if(typeof cb === 'undefined'){
+    cb = opts;
+    opts = {};
+  }
   opts = _.defaults(opts, this.opts);
   opts.method = 'post';
   var req = this.req(opts);
