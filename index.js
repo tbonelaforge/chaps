@@ -24,11 +24,16 @@ function Chaps(opts){
 Chaps.prototype.key = function(opts){
   var key = {};
   key.uri = opts.hostname + opts.url;
+  // order object properties for a consistent key name
   function keyModifier(obj){
     if(obj) {
       var sortedObj = {};
       Object.keys(obj).sort().forEach(function(v) {
-        sortedObj[v] = obj[v];
+        if(typeof obj[v] === 'object') {
+          sortedObj[v] = keyModifier(obj[v]);
+        } else {
+          sortedObj[v] = obj[v];
+        }
       });
       return sortedObj;
     }
