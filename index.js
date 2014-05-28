@@ -5,14 +5,16 @@ var superagent = require('superagent');
 var LRU = require('lru-cache');
 var deepval = require('deepval');
 
-function Chaps(opts){
-  if(opts.cache || opts.LRU) {
+function Chaps(opts) {
+  if (opts.cache || opts.LRU) {
     opts.cache = true;
     opts.LRU = _.defaults(opts.LRU || {}, {
       // default LRU values
-      length: function () { return 1; },
+      length: function() {
+        return 1;
+      },
       max: 100,
-      maxAge: 60000  // cache for 1 minute
+      maxAge: 60000 // cache for 1 minute
     });
     this.cache = LRU(opts.LRU);
   }
@@ -22,15 +24,15 @@ function Chaps(opts){
 }
 
 // build a key for get requests
-Chaps.prototype.key = function(opts){
+Chaps.prototype.key = function(opts) {
   var key = {};
   key.uri = opts.hostname + opts.url;
   // order object properties for a consistent key name
-  function keyModifier(obj){
-    if(obj) {
+  function keyModifier(obj) {
+    if (obj) {
       var sortedObj = {};
       Object.keys(obj).sort().forEach(function(v) {
-        if(typeof obj[v] === 'object') {
+        if (typeof obj[v] === 'object') {
           sortedObj[v] = keyModifier(obj[v]);
         } else {
           sortedObj[v] = obj[v];
@@ -39,16 +41,16 @@ Chaps.prototype.key = function(opts){
       return sortedObj;
     }
   }
-  ['headers', 'cookies', 'query'].forEach(function(modifier){
-    if(opts[modifier]){
+  ['headers', 'cookies', 'query'].forEach(function(modifier) {
+    if (opts[modifier]) {
       // deep clone objects to allow any cacheKeyExcludes to be deleted
       key[modifier] = _.clone(keyModifier(opts[modifier]), true);
     }
   });
 
   // remove any key values that should be excluded
-  if(opts.cacheKeyExcludes){
-    opts.cacheKeyExcludes.forEach(function(exclude){
+  if (opts.cacheKeyExcludes) {
+    opts.cacheKeyExcludes.forEach(function(exclude) {
       deepval(key, exclude, null, true);
     });
   }
@@ -58,22 +60,22 @@ Chaps.prototype.key = function(opts){
 };
 
 // build a superagent request handler
-Chaps.prototype.req = function(opts){
+Chaps.prototype.req = function(opts) {
   var sa = superagent[opts.method](opts.hostname + opts.url);
 
   // JSON.stringify requested options
-  if(opts.stringifies){
-    opts.stringifies.forEach(function(stringify){
+  if (opts.stringifies) {
+    opts.stringifies.forEach(function(stringify) {
       stringify = deepval(opts, stringify, JSON.stringify(deepval(opts, stringify)));
     });
   }
 
   // set headers
-  for(var header in opts.headers) {
+  for (var header in opts.headers) {
     sa.set(header, opts.headers[header]);
   }
   // set query params
-  if(opts.query) {
+  if (opts.query) {
     sa.query(opts.query);
   }
   // set timeout
@@ -83,20 +85,20 @@ Chaps.prototype.req = function(opts){
 };
 
 // handle get requests
-Chaps.prototype.get = function(opts, cb){
-  if(typeof cb === 'undefined'){
+Chaps.prototype.get = function(opts, cb) {
+  if (typeof cb === 'undefined') {
     cb = opts;
     opts = {};
   }
   opts = _.defaults(opts, this.opts);
 
-  if(this.cache && opts.cache) {
+  if (this.cache && opts.cache) {
     // attempt a cache hit
     var key = this.key(opts);
     var val = this.cache.get(key);
-    if(val) {
+    if (val) {
       // return any cache hit in callback
-      if(opts.debug){
+      if (opts.debug) {
         console.log('cache hit:', key);
       }
       return cb(null, {
@@ -115,7 +117,7 @@ Chaps.prototype.get = function(opts, cb){
   var req = this.req(opts);
 
   // buffer options
-  if(opts.buffer === true) {
+  if (opts.buffer === true) {
     req.buffer();
   } else if (opts.buffer === false) {
     req.buffer(false);
@@ -124,9 +126,9 @@ Chaps.prototype.get = function(opts, cb){
   // fetch data
   var self = this;
   // console.log(req);
-  req.end(function(err, res){
+  req.end(function(err, res) {
     // cache any good response
-    if(!err && self.cache && opts.cache && res && res.status === 200 && res.body) {
+    if (!err && self.cache && opts.cache && res && res.status === 200 && res.body) {
       self.cache.set(key, res.body);
     }
 
@@ -136,8 +138,8 @@ Chaps.prototype.get = function(opts, cb){
 };
 
 // handle post requests
-Chaps.prototype.post = function(opts, cb){
-  if(typeof cb === 'undefined'){
+Chaps.prototype.post = function(opts, cb) {
+  if (typeof cb === 'undefined') {
     cb = opts;
     opts = {};
   }
