@@ -21,12 +21,7 @@ function runTests() {
     var chaps = new Chaps({
       debug: true,
       hostname: 'localhost',
-      timeout: 2000,
-      cache: true,
-      LRU: {
-        max: 100,
-        maxAge: 500
-      }
+      timeout: 2000
     });
 
     chaps.get({
@@ -45,9 +40,7 @@ function runTests() {
       debug: true,
       hostname: 'localhost',
       timeout: 2000,
-      cache: true,
       LRU: {
-        max: 100,
         maxAge: 500
       }
     });
@@ -81,12 +74,7 @@ function runTests() {
       debug: true,
       hostname: 'localhost',
       timeout: 2000,
-      cache: true,
-      cacheKeyExcludes: ['query'],
-      LRU: {
-        max: 100,
-        maxAge: 500
-      }
+      cacheKeyExcludes: ['query']
     });
 
     chaps.get({
