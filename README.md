@@ -11,8 +11,10 @@ var chaps = new Chaps({
   cache: true,
   LRU: { // implies cache: true
     // options passed to LRU object, see LRU lib for more options
+    // default LRU values chaps provides
+    length: function () { return 1; },
     max: 100,
-    maxAge: 5000 // in ms
+    maxAge: 60000  // cache for 1 minute
   },
   cacheKeyExcludes: ['query.foo', 'query.bar.aaa'], // sting dot notation of object values to not impact caching routes
   stringify: ['query.foo'] // string dot notation of object values to JSON.stringify before sending request

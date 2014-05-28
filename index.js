@@ -9,9 +9,10 @@ function Chaps(opts){
   if(opts.cache || opts.LRU) {
     opts.cache = true;
     opts.LRU = _.defaults(opts.LRU || {}, {
-      max: 500,
-      length: function () { return 1 },
-      maxAge: 1000 * 60 * 60
+      // default LRU values
+      length: function () { return 1; },
+      max: 100,
+      maxAge: 60000  // cache for 1 minute
     });
     this.cache = LRU(opts.LRU);
   }
