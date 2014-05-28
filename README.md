@@ -8,7 +8,7 @@
 var chaps = new Chaps({
   hostname: 'localhost',
   timeout: 2000,
-  cache: true,
+  cache: true, // default as of @2.0.0, set to false to disable
   LRU: { // implies cache: true
     // options passed to LRU object, see LRU lib for more options
     // default LRU values chaps provides

@@ -6,6 +6,9 @@ var LRU = require('lru-cache');
 var deepval = require('deepval');
 
 function Chaps(opts) {
+  if (opts.cache !== false) {
+    opts.cache = true;
+  }
   if (opts.cache || opts.LRU) {
     opts.cache = true;
     opts.LRU = _.defaults(opts.LRU || {}, {
