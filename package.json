@@ -1,6 +1,6 @@
 {
   "name": "chaps",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "cache fronted http api caller",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "superagent": "^0.17.0",
+    "superagent": "^0.18.2",
     "lru-cache": "^2.5.0",
     "deepval": "^1.0.0",
     "lodash": "^2.4.1"

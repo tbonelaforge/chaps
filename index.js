@@ -16,6 +16,7 @@ function Chaps(opts) {
       max: 100,
       maxAge: 60000 // cache for 1 minute
     });
+    /* eslint new-cap:0 */
     this.cache = LRU(opts.LRU);
   }
 
