@@ -1,4 +1,4 @@
-# Chaps [![](https://travis-ci.org/creativelive/chaps.png)](https://travis-ci.org/creativelive/chaps)
+# Chaps [![](https://travis-ci.org/creativelive/chaps.svg)](https://travis-ci.org/creativelive/chaps)
 
 [LRU cache](https://github.com/isaacs/node-lru-cache) fronted [superagent](https://github.com/visionmedia/superagent)
 
